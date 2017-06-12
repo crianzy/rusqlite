@@ -13,14 +13,20 @@ mod build {
             panic!("Builds with bundled SQLCipher are not supported");
         }
 
+        let mut in_dir = "sqlite3";
         let out_dir = env::var("OUT_DIR").unwrap();
         let out_path = Path::new(&out_dir).join("bindgen.rs");
-        fs::copy("sqlite3/bindgen_bundled_version.rs", out_path)
+
+        if cfg!(feature = "bundled_sqlcipher") {
+            in_dir = "sqlcipher";
+        }
+
+        fs::copy(Path::new(&in_dir).join("bindgen_bundled_version.rs"), out_path)
             .expect("Could not copy bindings to output directory");
 
-        cc::Build::new()
-            .file("sqlite3/sqlite3.c")
-            .flag("-DSQLITE_CORE")
+        let mut compiler = gcc::Config::new();
+
+        compiler.flag("-DSQLITE_CORE")
             .flag("-DSQLITE_DEFAULT_FOREIGN_KEYS=1")
             .flag("-DSQLITE_ENABLE_API_ARMOR")
             .flag("-DSQLITE_ENABLE_COLUMN_METADATA")
@@ -38,8 +44,37 @@ mod build {
             .flag("-DSQLITE_SOUNDEX")
             .flag("-DSQLITE_THREADSAFE=1")
             .flag("-DSQLITE_USE_URI")
-            .flag("-DHAVE_USLEEP=1")
-            .compile("libsqlite3.a");
+            .flag("-DHAVE_USLEEP=1");
+
+        if cfg!(feature = "bundled_sqlcipher") {
+            compiler.file("sqlcipher/sqlite3.c")
+                .flag("-DSQLITE_HAS_CODEC")
+                .flag("-DSQLITE_TEMP_STORE=2");
+
+            if (cfg!(target_os = "macos") || cfg!(target_os = "ios")) && ! cfg!(feature = "openssl") {
+                compiler.flag("-DSQLCIPHER_CRYPTO_CC");
+                println!("cargo:rustc-link-lib=framework=CoreFoundation");
+                println!("cargo:rustc-link-lib=framework=Security");
+
+            } else if cfg!(feature = "tomcrypt") {
+                compiler.flag("-DSQLCIPHER_CRYPTO_LIBTOMCRYPT");
+                println!("cargo:rustc-link-lib=tomcrypt");
+
+            } else {
+                compiler.flag("-DSQLCIPHER_CRYPTO_OPENSSL");
+                println!("cargo:rustc-link-lib=crypto");
+
+                if let Ok(header) = env::var("OPENSSL_ROOT_DIR") {
+                    let ssl_root = Path::new(&header);
+                    compiler.flag(&format!("{}{}", "-I", ssl_root.join("include").to_str().unwrap()));
+                    println!("cargo:rustc-link-search={}", ssl_root.join("lib").to_str().unwrap());
+                }
+            }
+        } else {
+            compiler.file("sqlite3/sqlite3.c");
+        }
+        
+        compiler.compile("libsqlite3.a");
     }
 }
 

@@ -21,6 +21,10 @@ min_sqlite_version_3_6_23 = ["pkg-config", "vcpkg"]
 min_sqlite_version_3_7_3 = ["pkg-config", "vcpkg"]
 min_sqlite_version_3_7_4 = ["pkg-config", "vcpkg"]
 min_sqlite_version_3_7_16 = ["pkg-config", "vcpkg"]
+bundled_sqlcipher = ["bundled"]
+common_crypto = []
+openssl = []
+tomcrypto = []
 
 [build-dependencies]
 bindgen = { version = "0.31", optional = true }
