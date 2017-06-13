@@ -41,6 +41,10 @@
 extern "C" {
 #endif
 
+/* SQLCipher support because bindgen doesn't appear to allow you pass
+ * -DSQLITE_HAS_CODEC in any meaningful way
+ */
+#define SQLITE_HAS_CODEC
 
 /*
 ** Provide the ability to override linkage features of the interface.

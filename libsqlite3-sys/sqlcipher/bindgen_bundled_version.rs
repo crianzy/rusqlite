@@ -1945,6 +1945,33 @@ extern "C" {
      -> ::std::os::raw::c_int;
 }
 extern "C" {
+    pub fn sqlite3_key(db: *mut sqlite3, pKey: *const ::std::os::raw::c_void,
+                       nKey: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    pub fn sqlite3_key_v2(db: *mut sqlite3,
+                          zDbName: *const ::std::os::raw::c_char,
+                          pKey: *const ::std::os::raw::c_void,
+                          nKey: ::std::os::raw::c_int)
+     -> ::std::os::raw::c_int;
+}
+extern "C" {
+    pub fn sqlite3_rekey(db: *mut sqlite3,
+                         pKey: *const ::std::os::raw::c_void,
+                         nKey: ::std::os::raw::c_int)
+     -> ::std::os::raw::c_int;
+}
+extern "C" {
+    pub fn sqlite3_rekey_v2(db: *mut sqlite3,
+                            zDbName: *const ::std::os::raw::c_char,
+                            pKey: *const ::std::os::raw::c_void,
+                            nKey: ::std::os::raw::c_int)
+     -> ::std::os::raw::c_int;
+}
+extern "C" {
+    pub fn sqlite3_activate_see(zPassPhrase: *const ::std::os::raw::c_char);
+}
+extern "C" {
     pub fn sqlite3_sleep(arg1: ::std::os::raw::c_int)
      -> ::std::os::raw::c_int;
 }
