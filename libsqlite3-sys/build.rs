@@ -51,6 +51,8 @@ mod build {
                 .flag("-DSQLITE_HAS_CODEC")
                 .flag("-DSQLITE_TEMP_STORE=2");
 
+            // Default to CommonCrypto on Apple systems unless the "openssl" feature is explicitly
+            // given.
             if (cfg!(target_os = "macos") || cfg!(target_os = "ios")) && ! cfg!(feature = "openssl") {
                 compiler.flag("-DSQLCIPHER_CRYPTO_CC");
                 println!("cargo:rustc-link-lib=framework=CoreFoundation");
