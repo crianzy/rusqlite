@@ -46,48 +46,57 @@ pub enum Limit {
 
 include!(concat!(env!("OUT_DIR"), "/bindgen.rs"));
 
+#[cfg(test)]
+extern crate rand;
+
 #[cfg(all(feature = "sqlcipher", test))]
 mod tests {
-
     use std::env;
     use std::mem;
-    use std::path::Path;
+    use std::path::{Path, PathBuf};
     use std::fs;
-    use std::ffi::{CStr, CString};
+    use std::ffi::CString;
     use std::ptr;
-    use std::vec;
     use std::os::raw::c_int;
+    use rand::{thread_rng, Rng};
 
     const FIRST_KEY: &'static str = "my first passphrase";
     const SECOND_KEY: &'static str = "my second passphrase";
-    const DB_PATH: &'static str = "bindings_test.sqlite3_enc";
+    const DB_PATH: &'static str = "bindings_test_sqlcipher";
     const OPEN_FLAGS: c_int = super::SQLITE_OPEN_READWRITE|super::SQLITE_OPEN_URI|super::SQLITE_OPEN_NOMUTEX;
 
-    fn db_name(path: &str) -> String {
+    fn new_db() -> PathBuf {
         let out_dir = env::var("OUT_DIR").unwrap();
-        out_dir + path
+        let stub: String = thread_rng().gen_ascii_chars().take(10).collect();
+        let path = Path::new(out_dir.as_str());
+        let mut pbuf = path.join(DB_PATH);
+        pbuf.set_extension(stub);
+        pbuf
     }
 
-    fn create_test_db(path: &str) -> *mut super::sqlite3 {
-        let os_path = Path::new(path);
-        fs::remove_file(os_path);
-        let mut flags = super::SQLITE_OPEN_CREATE | OPEN_FLAGS;
-        _open_test_db(path, flags)
+    fn create_test_db(path: &PathBuf, key: &str) -> *mut super::sqlite3 {
+        fs::remove_file(path);
+        let flags = super::SQLITE_OPEN_CREATE | OPEN_FLAGS;
+        _open_test_db(path, flags, key)
     }
 
-    fn open_test_db(path: &str) -> *mut super::sqlite3 {
-        let os_path = Path::new(path);
-        fs::remove_file(os_path);
-        _open_test_db(path, OPEN_FLAGS)
+    fn open_test_db(path: &PathBuf, key: &str) -> *mut super::sqlite3 {
+        _open_test_db(path, OPEN_FLAGS, key)
     }
 
-    fn _open_test_db(path: &str, flags: c_int) -> *mut super::sqlite3 {
+    fn _open_test_db(path: &PathBuf, flags: c_int, key: &str) -> *mut super::sqlite3 {
         unsafe {
             let mut db: *mut super::sqlite3 = mem::uninitialized();
-            let path = CString::new(path).unwrap();
-            let r = super::sqlite3_open_v2(path.as_ptr(), &mut db, flags, ptr::null());
+            let path_ = CString::new(path.to_str().unwrap()).unwrap();
+            let r = super::sqlite3_open_v2(path_.as_ptr(), &mut db, flags, ptr::null());
 
-            assert_eq!(r, super::SQLITE_OK);
+            assert!(r == super::SQLITE_OK, "Can't open {0}: {1}", path.to_str().unwrap(), r);
+
+            let database_name = CString::new("main").unwrap();
+            let passphrase = CString::new(key).unwrap();
+            let c_len = (key.len() + 1) as c_int;
+            let r = super::sqlite3_key_v2(db, database_name.as_ptr(), passphrase.as_ptr() as *mut ::std::os::raw::c_void, c_len);
+
             return db;
         }
     }
@@ -108,25 +117,27 @@ mod tests {
                 super::SQLITE_ROW => None,
                 super::SQLITE_ERROR => panic!("SQLite error encountered"),
                 super::SQLITE_BUSY => panic!("SQLite claiming busy: finalize statement, maybe?"),
-                _ => panic!("SQlite returned a weird error code: {}", r)
+                _ => panic!("SQlite returned a weird error code: {0}: \"{1}\"", r, cmd)
+
             }
         }
     }
 
     #[test]
     fn test_sqlcipher_create_and_encrypt() {
-        unsafe {
-            let db_path = db_name(DB_PATH);
-            let db = create_test_db(db_path.as_str());
+        create_and_encrypt(FIRST_KEY);
+    }
 
-            let passphrase = format!("PRAGMA key = \"{}\";", FIRST_KEY);
+    fn create_and_encrypt(key: &str) -> PathBuf {
+        unsafe {
+            let db_path = new_db();
+            let db = create_test_db(&db_path, key);
+
             let cmds = vec![
-                passphrase.as_str(),
                 "CREATE TABLE lemming ( first INTEGER PRIMARY KEY );",
                 "INSERT INTO lemming VALUES (11);",
                 "INSERT INTO lemming VALUES (13);",
                 "INSERT INTO lemming VALUES (17);",
-                //"SELECT * FROM lemming LIMIT 1;",
             ];
             for cmd in cmds {
                 exec(db, cmd);
@@ -134,69 +145,53 @@ mod tests {
 
             let r = super::sqlite3_close(db);
             assert_eq!(r, super::SQLITE_OK);
+            return db_path;
         }
     }
 
     #[test]
     fn test_sqlcipher_open_and_decrypt() {
-        test_sqlcipher_create_and_encrypt();
+        let path = create_and_encrypt(FIRST_KEY);
+        let db = open_and_decrypt(&path, FIRST_KEY);
         unsafe {
-            let db_path = db_name(DB_PATH);
-            let db = open_test_db(db_path.as_str());
+            let r = super::sqlite3_close(db);
+            assert_eq!(r, super::SQLITE_OK)
+        }
+    }
 
-            let passphrase = format!("PRAGMA key = \"{}\";", FIRST_KEY);
+    fn open_and_decrypt(path: &PathBuf, key: &str) -> *mut super::sqlite3 {
+        unsafe {
+            let db = open_test_db(path, key);
+
             let cmds = vec![
-                passphrase.as_str(),
                 "SELECT * FROM lemming LIMIT 1;",
             ];
             for cmd in cmds {
                 exec(db, cmd);
             }
-
-            let r = super::sqlite3_close(db);
-            assert_eq!(r, super::SQLITE_OK);
+            return db;
         }
     }
 
     #[test]
     fn test_sqlcipher_open_and_rekey() {
-        test_sqlcipher_create_and_encrypt();
+        let path = create_and_encrypt(FIRST_KEY);
+        let db = open_and_decrypt(&path, FIRST_KEY);
         unsafe {
-            let db_path = db_name(DB_PATH);
-            let db = open_test_db(db_path.as_str());
-
-            let old_passphrase = format!("PRAGMA key = \"{}\";", FIRST_KEY);
-            let new_passphrase = format!("PRAGMA key = \"{}\";", SECOND_KEY);
-            let cmds = vec![
-                old_passphrase.as_str(),
-                new_passphrase.as_str(),
-                "SELECT * FROM lemming LIMIT 1;",
-            ];
-            for cmd in cmds {
-                exec(db, cmd);
-            }
+            // Decrypt and then re-encrypt via the C API
+            let database_name = CString::new("main").unwrap();
+            let passphrase = CString::new(SECOND_KEY).unwrap();
+            let c_len = (SECOND_KEY.len() + 1) as c_int;
+            let r = super::sqlite3_rekey_v2(db, database_name.as_ptr(), passphrase.as_ptr() as *mut ::std::os::raw::c_void, c_len);
+            exec(db, "SELECT * FROM lemming LIMIT 2;");
 
             let r = super::sqlite3_close(db);
             assert_eq!(r, super::SQLITE_OK);
         }
-    }
-
-    #[test]
-    fn test_sqlcipher_verify_rekey() {
-        test_sqlcipher_create_and_encrypt();
-        test_sqlcipher_open_and_rekey();
+        // Verify the new key is intact
+        let db = open_test_db(&path, SECOND_KEY);
         unsafe {
-            let db_path = db_name(DB_PATH);
-            let db = open_test_db(db_path.as_str());
-
-            let passphrase = format!("PRAGMA key = \"{}\";", SECOND_KEY);
-            let cmds = vec![
-                passphrase.as_str(),
-                "SELECT * FROM lemming LIMIT 1;",
-            ];
-            for cmd in cmds {
-                exec(db, cmd);
-            }
+            exec(db, "SELECT * FROM lemming LIMIT 2;");
 
             let r = super::sqlite3_close(db);
             assert_eq!(r, super::SQLITE_OK);
