@@ -54,7 +54,6 @@ mod tests {
     use std::env;
     use std::mem;
     use std::path::{Path, PathBuf};
-    use std::fs;
     use std::ffi::CString;
     use std::ptr;
     use std::os::raw::c_int;
@@ -75,7 +74,6 @@ mod tests {
     }
 
     fn create_test_db(path: &PathBuf, key: &str) -> *mut super::sqlite3 {
-        fs::remove_file(path);
         let flags = super::SQLITE_OPEN_CREATE | OPEN_FLAGS;
         _open_test_db(path, flags, key)
     }
@@ -97,6 +95,8 @@ mod tests {
             let c_len = (key.len() + 1) as c_int;
             let r = super::sqlite3_key_v2(db, database_name.as_ptr(), passphrase.as_ptr() as *mut ::std::os::raw::c_void, c_len);
 
+            assert!(r == super::SQLITE_OK, "Can't set encryption key for {0}: {1}", path.to_str().unwrap(), r);
+
             return db;
         }
     }
@@ -107,6 +107,8 @@ mod tests {
         unsafe {
             let len_with_nul = (cmd.len() + 1) as c_int;
             let r = super::sqlite3_prepare_v2(db, query.unwrap().as_ptr(), len_with_nul, &mut stmt, ptr::null_mut());
+
+            assert!(r == super::SQLITE_OK, "Failed to prepare statement {0}: {1}", cmd, r);
 
             let r = super::sqlite3_step(stmt);
             super::sqlite3_finalize(stmt);
@@ -160,17 +162,15 @@ mod tests {
     }
 
     fn open_and_decrypt(path: &PathBuf, key: &str) -> *mut super::sqlite3 {
-        unsafe {
-            let db = open_test_db(path, key);
+        let db = open_test_db(path, key);
 
-            let cmds = vec![
-                "SELECT * FROM lemming LIMIT 1;",
-            ];
-            for cmd in cmds {
-                exec(db, cmd);
-            }
-            return db;
+        let cmds = vec![
+            "SELECT * FROM lemming LIMIT 1;",
+        ];
+        for cmd in cmds {
+            exec(db, cmd);
         }
+        return db;
     }
 
     #[test]
@@ -183,6 +183,9 @@ mod tests {
             let passphrase = CString::new(SECOND_KEY).unwrap();
             let c_len = (SECOND_KEY.len() + 1) as c_int;
             let r = super::sqlite3_rekey_v2(db, database_name.as_ptr(), passphrase.as_ptr() as *mut ::std::os::raw::c_void, c_len);
+
+            assert!(r == super::SQLITE_OK, "Can't set encryption key for {0}: {1}", path.to_str().unwrap(), r);
+
             exec(db, "SELECT * FROM lemming LIMIT 2;");
 
             let r = super::sqlite3_close(db);
