@@ -32,3 +32,6 @@ gcc = { version = "0.3", optional = true }
 
 [target.'cfg(target_env = "msvc")'.build-dependencies]
 vcpkg = { version = "0.2", optional = true }
+
+[dev-dependencies]
+rand = "0.3"
