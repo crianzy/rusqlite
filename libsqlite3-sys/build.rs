@@ -47,31 +47,38 @@ mod build {
                 .flag("-DSQLITE_HAS_CODEC")
                 .flag("-DSQLITE_TEMP_STORE=2");
 
+            let target = env::var("TARGET").unwrap();
+
             // Default to CommonCrypto on Apple systems unless the "openssl" feature is explicitly
             // given.
-            if (cfg!(target_os = "macos") || cfg!(target_os = "ios")) && ! cfg!(feature = "openssl") {
+            if target.contains("apple") && !cfg!(feature = "openssl") {
                 compiler.flag("-DSQLCIPHER_CRYPTO_CC");
                 println!("cargo:rustc-link-lib=framework=CoreFoundation");
                 println!("cargo:rustc-link-lib=framework=Security");
-
             } else if cfg!(feature = "tomcrypt") {
                 compiler.flag("-DSQLCIPHER_CRYPTO_LIBTOMCRYPT");
                 println!("cargo:rustc-link-lib=tomcrypt");
-
             } else {
                 compiler.flag("-DSQLCIPHER_CRYPTO_OPENSSL");
-                println!("cargo:rustc-link-lib=crypto");
 
-                if let Ok(header) = env::var("OPENSSL_ROOT_DIR") {
+                if let Some(header) = env::var_os("OPENSSL_DIR") {
                     let ssl_root = Path::new(&header);
                     compiler.flag(&format!("{}{}", "-I", ssl_root.join("include").to_str().unwrap()));
                     println!("cargo:rustc-link-search={}", ssl_root.join("lib").to_str().unwrap());
+                    if target.contains("windows") {
+                        println!("cargo:rustc-link-lib={}={}", "static", "ssl");
+                        println!("cargo:rustc-link-lib={}={}", "static", "crypto");
+                        println!("cargo:rustc-link-lib={}={}", "dylib", "gdi32");
+                    } else {
+                        println!("cargo:rustc-link-lib=crypto");
+                        println!("cargo:rustc-link-lib=ssl");
+                    }
                 }
             }
         } else {
             compiler.file("sqlite3/sqlite3.c");
         }
-        
+
         compiler.compile("libsqlite3.a");
     }
 }
