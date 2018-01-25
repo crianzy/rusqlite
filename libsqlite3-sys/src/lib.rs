@@ -49,7 +49,7 @@ include!(concat!(env!("OUT_DIR"), "/bindgen.rs"));
 #[cfg(test)]
 extern crate rand;
 
-#[cfg(all(feature = "sqlcipher", test))]
+#[cfg(all(feature = "sqlcipher", feature = "bundled", test))]
 mod tests {
     use std::env;
     use std::mem;

@@ -9,22 +9,18 @@ mod build {
     use std::path::Path;
 
     pub fn main() {
-        if cfg!(feature = "sqlcipher") {
-            panic!("Builds with bundled SQLCipher are not supported");
-        }
-
         let mut in_dir = "sqlite3";
         let out_dir = env::var("OUT_DIR").unwrap();
         let out_path = Path::new(&out_dir).join("bindgen.rs");
 
-        if cfg!(feature = "bundled_sqlcipher") {
+        if cfg!(feature = "sqlcipher") {
             in_dir = "sqlcipher";
         }
 
         fs::copy(Path::new(&in_dir).join("bindgen_bundled_version.rs"), out_path)
             .expect("Could not copy bindings to output directory");
 
-        let mut compiler = gcc::Config::new();
+        let mut compiler = cc::Build::new();
 
         compiler.flag("-DSQLITE_CORE")
             .flag("-DSQLITE_DEFAULT_FOREIGN_KEYS=1")
@@ -46,7 +42,7 @@ mod build {
             .flag("-DSQLITE_USE_URI")
             .flag("-DHAVE_USLEEP=1");
 
-        if cfg!(feature = "bundled_sqlcipher") {
+        if cfg!(feature = "sqlcipher") {
             compiler.file("sqlcipher/sqlite3.c")
                 .flag("-DSQLITE_HAS_CODEC")
                 .flag("-DSQLITE_TEMP_STORE=2");
@@ -217,6 +213,8 @@ mod build {
 
             #[cfg(feature = "min_sqlite_version_3_7_16")]
             "bindgen-bindings/bindgen_3.7.16.rs",
+            #[cfg(feature = "sqlcipher")]
+            "bindgen-bindings/bindgen_sqlcipher.rs",
         ];
 
         pub fn write_to_out_dir(_header: HeaderLocation) {
