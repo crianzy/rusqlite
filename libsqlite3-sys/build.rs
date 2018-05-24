@@ -40,7 +40,11 @@ mod build {
             .flag("-DSQLITE_SOUNDEX")
             .flag("-DSQLITE_THREADSAFE=2")
             .flag("-DSQLITE_USE_URI")
-            .flag("-DHAVE_USLEEP=1");
+            .flag("-DHAVE_USLEEP=1")
+            .flag("-DSQLITE_OMIT_SHARED_CACHE")
+            .flag("-DSQLITE_DEFAULT_MEMSTATUS=0")
+            .flag("-DSQLITE_OMIT_PROGRESS_CALLBACK")
+            .flag("-DSQLITE_DEFAULT_WAL_SYNCHRONOUS=1");
 
         if cfg!(feature = "sqlcipher") {
             compiler.file("sqlcipher/sqlite3.c")
