@@ -52,6 +52,14 @@ mod build {
                 .flag("-DSQLITE_TEMP_STORE=2");
 
             let target = env::var("TARGET").unwrap();
+            let host = env::var("HOST").unwrap();
+            let mut openssl_dir_env_name = "OPENSSL_DIR";
+            if target == host {
+                const HOST_OPENSSL_DIR: &'static str = "HOST_OPENSSL_DIR";
+                if env::var_os(HOST_OPENSSL_DIR).is_some() {
+                    openssl_dir_env_name = HOST_OPENSSL_DIR;
+                }
+            };
 
             // Default to CommonCrypto on Apple systems unless the "openssl" feature is explicitly
             // given.
@@ -65,8 +73,8 @@ mod build {
             } else {
                 compiler.flag("-DSQLCIPHER_CRYPTO_OPENSSL");
 
-                if let Some(header) = env::var_os("OPENSSL_DIR") {
-                    let ssl_root = Path::new(&header);
+                if let Some(dir) = env::var_os(openssl_dir_env_name) {
+                    let ssl_root = Path::new(&dir);
                     compiler.flag(&format!("{}{}", "-I", ssl_root.join("include").to_str().unwrap()));
                     println!("cargo:rustc-link-search={}", ssl_root.join("lib").to_str().unwrap());
                     if target.contains("windows") {
