@@ -80,9 +80,9 @@ mod build {
                     if target.contains("windows") {
                         println!("cargo:rustc-link-lib={}={}", "static", "ssl");
                         println!("cargo:rustc-link-lib={}={}", "static", "crypto");
+                        println!("cargo:rustc-link-lib=gdi32");
                         if target.contains("msvc") {
                             println!("cargo:rustc-link-lib=user32");
-                            println!("cargo:rustc-link-lib=gdi32");
                             println!("cargo:rustc-link-lib=crypt32");
                         }
                     } else {
