@@ -29,6 +29,8 @@ limits = []
 hooks = []
 sqlcipher = ["libsqlite3-sys/sqlcipher"]
 unlock_notify = ["libsqlite3-sys/unlock_notify"]
+optimize = ["libsqlite3-sys/optimize"]
+secure_delete = ["libsqlite3-sys/secure_delete"]
 
 [dependencies]
 time = "0.1.0"

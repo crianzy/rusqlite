@@ -24,6 +24,7 @@ min_sqlite_version_3_7_4 = ["pkg-config", "vcpkg"]
 min_sqlite_version_3_7_16 = ["pkg-config", "vcpkg"]
 # sqlite3_unlock_notify >= 3.6.12
 unlock_notify = []
+secure_delete = []
 
 [build-dependencies]
 bindgen = { version = "0.37", optional = true }

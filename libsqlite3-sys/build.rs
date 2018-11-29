@@ -49,6 +49,10 @@ mod build {
                 .flag("-DSQLITE_ENABLE_UPDATE_DELETE_LIMIT=1");
         }
 
+        if cfg!(feature = "secure_delete") {
+            cfg.flag("-DSQLITE_SECURE_DELETE");
+        }
+
         if cfg!(feature = "unlock_notify") {
             cfg.flag("-DSQLITE_ENABLE_UNLOCK_NOTIFY");
         }
@@ -94,7 +98,6 @@ mod build {
                         }
                     } else {
                         println!("cargo:rustc-link-lib=crypto");
-                        println!("cargo:rustc-link-lib=ssl");
                     }
                 }
             }
