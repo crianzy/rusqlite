@@ -14,13 +14,12 @@ matrix:
 
 addons:
   apt:
-    packages: # recommanded versions for rust-bindgen
-      - llvm-dev
-      - libclang-dev
+    packages:
+      - libclang-3.9-dev
       - libsqlcipher-dev
 
 env: # specify the clang path for rust-bindgen
-  - LIBCLANG_PATH=/usr/lib/llvm/lib
+  - LIBCLANG_PATH=/usr/lib/llvm-3.9/lib
 
 script:
   - cargo build

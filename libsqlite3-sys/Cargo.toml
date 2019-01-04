@@ -27,7 +27,7 @@ unlock_notify = []
 secure_delete = []
 
 [build-dependencies]
-bindgen = { version = "0.37", optional = true }
+bindgen = { version = "0.46", optional = true }
 pkg-config = { version = "0.3", optional = true }
 cc = { version = "1.0", optional = true }
 
