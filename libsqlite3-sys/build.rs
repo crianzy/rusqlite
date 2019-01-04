@@ -89,7 +89,6 @@ mod build {
                     cfg.flag(&format!("{}{}", "-I", ssl_root.join("include").to_str().unwrap()));
                     println!("cargo:rustc-link-search={}", ssl_root.join("lib").to_str().unwrap());
                     if target.contains("windows") {
-                        println!("cargo:rustc-link-lib={}={}", "static", "ssl");
                         println!("cargo:rustc-link-lib={}={}", "static", "crypto");
                         println!("cargo:rustc-link-lib=gdi32");
                         if target.contains("msvc") {
