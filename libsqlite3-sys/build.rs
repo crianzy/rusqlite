@@ -22,6 +22,7 @@ mod build {
             .expect("Could not copy bindings to output directory");
 
         let mut cfg = cc::Build::new();
+        cfg.flag("-fvisibility=hidden");
         cfg.flag("-DSQLITE_CORE")
             .flag("-DSQLITE_DEFAULT_FOREIGN_KEYS=1")
             .flag("-DSQLITE_ENABLE_API_ARMOR")
