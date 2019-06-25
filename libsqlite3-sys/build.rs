@@ -63,6 +63,9 @@ mod build {
                 .flag("-DSQLITE_HAS_CODEC")
                 .flag("-DSQLITE_TEMP_STORE=2");
 
+            println!("cargo:rerun-if-env-changed=OPENSSL_DIR");
+            println!("cargo:rerun-if-env-changed=HOST_OPENSSL_DIR");
+
             let target = env::var("TARGET").unwrap();
             let host = env::var("HOST").unwrap();
             let mut openssl_dir_env_name = "OPENSSL_DIR";
