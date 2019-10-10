@@ -43,7 +43,7 @@ mod build {
             .flag("-DSQLITE_USE_URI")
             .flag("-DHAVE_USLEEP=1");
         if cfg!(feature = "optimize") {
-            cfg.flag("-DSQLITE_OMIT_SHARED_CACHE")
+            cfg
                 .flag("-DSQLITE_DEFAULT_MEMSTATUS=0")
                 .flag("-DSQLITE_OMIT_PROGRESS_CALLBACK")
                 .flag("-DSQLITE_DEFAULT_WAL_SYNCHRONOUS=1")
