@@ -74,7 +74,7 @@ mod build {
 
             // Default to CommonCrypto on Apple systems unless the "openssl" feature is explicitly
             // given.
-            println!("cargo:rustc-link-lib=framework=wcdb");
+
             if target.contains("apple") && !cfg!(feature = "openssl") {
                 cfg.flag("-DSQLCIPHER_CRYPTO_CC");
                 println!("cargo:rustc-link-lib=framework=CoreFoundation");
