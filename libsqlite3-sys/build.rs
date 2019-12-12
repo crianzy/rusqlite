@@ -160,8 +160,8 @@ mod build {
         }
         // Allow users to specify where to find SQLite.
         if let Ok(dir) = env::var(format!("{}_LIB_DIR", env_prefix())) {
-            println!("cargo:rustc-link-lib={}", link_lib);
             println!("cargo:rustc-link-search={}", dir);
+            println!("cargo:rustc-link-lib={}", link_lib);
             return HeaderLocation::FromEnvironment;
         }
 
