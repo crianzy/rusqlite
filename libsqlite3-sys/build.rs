@@ -152,6 +152,7 @@ mod build {
     fn find_sqlite() -> HeaderLocation {
         let link_lib = link_lib();
 
+        // SQLCIPHER_INCLUDE_DIR
         println!("cargo:rerun-if-env-changed={}_INCLUDE_DIR", env_prefix());
         println!("cargo:rerun-if-env-changed={}_LIB_DIR", env_prefix());
         if cfg!(target_os="windows") {
@@ -216,7 +217,8 @@ mod build {
 
     fn link_lib() -> &'static str {
         if cfg!(feature = "sqlcipher") {
-            "sqlcipher"
+//            "sqlcipher"
+            "wcdb"
         } else {
             "sqlite3"
         }
