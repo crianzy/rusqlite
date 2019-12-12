@@ -153,11 +153,11 @@ mod build {
         let link_lib = link_lib();
 
         // SQLCIPHER_INCLUDE_DIR
-        println!("cargo:rerun-if-env-changed={}_INCLUDE_DIR", env_prefix());
-        println!("cargo:rerun-if-env-changed={}_LIB_DIR", env_prefix());
-        if cfg!(target_os="windows") {
-            println!("cargo:rerun-if-env-changed=PATH");
-        }
+//        println!("cargo:rerun-if-env-changed={}_INCLUDE_DIR", env_prefix());
+//        println!("cargo:rerun-if-env-changed={}_LIB_DIR", env_prefix());
+//        if cfg!(target_os="windows") {
+//            println!("cargo:rerun-if-env-changed=PATH");
+//        }
         // Allow users to specify where to find SQLite.
 //        if let Ok(dir) = env::var(format!("{}_LIB_DIR", env_prefix())).unwrap() {
 //            println!("cargo:rustc-link-search={}", dir);
