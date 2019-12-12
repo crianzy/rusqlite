@@ -34,8 +34,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/build.rs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="106">
-              <caret line="168" column="112" selection-start-line="168" selection-start-column="112" selection-end-line="168" selection-end-column="112" />
+            <state relative-caret-position="91">
+              <caret line="167" column="60" lean-forward="true" selection-start-line="167" selection-start-column="60" selection-end-line="167" selection-end-column="60" />
               <folding>
                 <element signature="e#10#11#0" expanded="true" />
                 <element signature="e#31#32#0" expanded="true" />
@@ -88,10 +88,10 @@
     <option name="directoryName" value="fTGIPndE" />
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="-1920" />
-    <option name="y" value="-275" />
-    <option name="width" value="1920" />
-    <option name="height" value="1080" />
+    <option name="x" value="210" />
+    <option name="y" value="145" />
+    <option name="width" value="1260" />
+    <option name="height" value="736" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -168,7 +168,7 @@
       <workItem from="1576147345929" duration="430000" />
       <workItem from="1576147806159" duration="745000" />
       <workItem from="1576151504790" duration="3636000" />
-      <workItem from="1576155448312" duration="2449000" />
+      <workItem from="1576155448312" duration="3114000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1576151620724</created>
@@ -181,11 +181,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7260000" />
+    <option name="totallyTimeSpent" value="7925000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1920" y="-275" width="1920" height="1080" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2257721" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -199,7 +198,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.7315096" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.5552178" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.5552178" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -318,8 +317,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/build.rs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="168" column="112" selection-start-line="168" selection-start-column="112" selection-end-line="168" selection-end-column="112" />
+        <state relative-caret-position="91">
+          <caret line="167" column="60" lean-forward="true" selection-start-line="167" selection-start-column="60" selection-end-line="167" selection-end-column="60" />
           <folding>
             <element signature="e#10#11#0" expanded="true" />
             <element signature="e#31#32#0" expanded="true" />
