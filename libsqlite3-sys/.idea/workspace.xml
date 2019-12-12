@@ -13,6 +13,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c8f5f367-597b-4a86-9a47-7759c93d5ae4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.rs" beforeDir="false" afterPath="$PROJECT_DIR$/build.rs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,15 +28,15 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Cargo.toml">
+        <entry file="file://$PROJECT_DIR$/Cargo.lock">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/build.rs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="168" column="44" lean-forward="true" selection-start-line="168" selection-start-column="44" selection-end-line="168" selection-end-column="44" />
+            <state relative-caret-position="414">
+              <caret line="169" column="133" selection-start-line="169" selection-start-column="133" selection-end-line="169" selection-end-column="133" />
               <folding>
                 <element signature="e#10#11#0" expanded="true" />
                 <element signature="e#31#32#0" expanded="true" />
@@ -45,19 +46,16 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sqlite3/sqlite3.h">
+        <entry file="file://$PROJECT_DIR$/sqlcipher/sqlite3.c">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sqlite3/sqlite3.c">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Cargo.lock">
+        <entry file="file://$PROJECT_DIR$/sqlcipher/sqlite3.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-636" />
+            <state relative-caret-position="310">
+              <caret line="11650" column="7" selection-start-line="11650" selection-start-column="7" selection-end-line="11650" selection-end-column="7" />
+            </state>
           </provider>
         </entry>
       </file>
@@ -71,6 +69,8 @@
       <find>DSQLITE_ENABLE_DBSTAT_VTAB</find>
       <find>_LIB_DIR</find>
       <find>SQLCIPHER_INCLUDE_DIR</find>
+      <find>diesel</find>
+      <find>write_to_out_dir</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -89,8 +89,8 @@
     <option name="directoryName" value="fTGIPndE" />
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="1" />
-    <option name="y" value="1" />
+    <option name="x" value="-1920" />
+    <option name="y" value="-275" />
     <option name="width" value="1920" />
     <option name="height" value="1080" />
   </component>
@@ -100,6 +100,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -126,7 +127,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -168,7 +168,8 @@
       <updated>1576147343654</updated>
       <workItem from="1576147345929" duration="430000" />
       <workItem from="1576147806159" duration="745000" />
-      <workItem from="1576151504790" duration="2199000" />
+      <workItem from="1576151504790" duration="3636000" />
+      <workItem from="1576155448312" duration="2249000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1576151620724</created>
@@ -181,13 +182,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3374000" />
+    <option name="totallyTimeSpent" value="7060000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
+    <frame x="-1920" y="-275" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2930403" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2257721" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -198,8 +199,8 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.55590385" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.7315096" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.5552178" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -212,6 +213,42 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
@@ -251,23 +288,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sqlcipher/sqlite3.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="11650" column="7" selection-start-line="11650" selection-start-column="7" selection-end-line="11650" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bindgen-bindings/bundled_sqlcipher.rs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="310">
           <caret line="5081" column="11" selection-start-line="5081" selection-start-column="11" selection-end-line="5081" selection-end-column="11" />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Cargo.lock">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-636" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Cargo.toml">
@@ -279,10 +304,23 @@
     <entry file="file://$PROJECT_DIR$/sqlite3/sqlite3.c">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/sqlcipher/sqlite3.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="11650" column="7" selection-start-line="11650" selection-start-column="7" selection-end-line="11650" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sqlcipher/sqlite3.c">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cargo.lock">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/build.rs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="168" column="44" lean-forward="true" selection-start-line="168" selection-start-column="44" selection-end-line="168" selection-end-column="44" />
+        <state relative-caret-position="414">
+          <caret line="169" column="133" selection-start-line="169" selection-start-column="133" selection-end-line="169" selection-end-column="133" />
           <folding>
             <element signature="e#10#11#0" expanded="true" />
             <element signature="e#31#32#0" expanded="true" />

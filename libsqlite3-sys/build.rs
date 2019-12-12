@@ -167,6 +167,7 @@ mod build {
 
 //        let dir  = env::var(format!("{}_LIB_DIR", env_prefix())).unwrap();
         println!("cargo:rustc-link-search={}", "/Users/chenzhiyong/Documents/bytedance/rocket/rust-sdk/deps/test_clink/android/armv7");
+        println!("cargo:rustc-link-search={}", "/Users/chenzhiyong/Documents/bytedance/rocket/rust-sdk/deps/test_clink/android/x86_64");
         println!("cargo:rustc-link-lib={}", link_lib);
         return HeaderLocation::FromEnvironment;
 
