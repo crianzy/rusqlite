@@ -13,7 +13,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c8f5f367-597b-4a86-9a47-7759c93d5ae4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.rs" beforeDir="false" afterPath="$PROJECT_DIR$/build.rs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,8 +34,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/build.rs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="557">
-              <caret line="163" column="58" selection-start-line="163" selection-start-column="58" selection-end-line="163" selection-end-column="58" />
+            <state relative-caret-position="383">
+              <caret line="169" column="51" selection-start-line="169" selection-start-column="51" selection-end-line="169" selection-end-column="51" />
               <folding>
                 <element signature="e#10#11#0" expanded="true" />
                 <element signature="e#31#32#0" expanded="true" />
@@ -168,7 +167,7 @@
       <updated>1576147343654</updated>
       <workItem from="1576147345929" duration="430000" />
       <workItem from="1576147806159" duration="745000" />
-      <workItem from="1576151504790" duration="1464000" />
+      <workItem from="1576151504790" duration="1752000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1576151620724</created>
@@ -181,7 +180,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2639000" />
+    <option name="totallyTimeSpent" value="2927000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -281,8 +280,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/build.rs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="557">
-          <caret line="163" column="58" selection-start-line="163" selection-start-column="58" selection-end-line="163" selection-end-column="58" />
+        <state relative-caret-position="383">
+          <caret line="169" column="51" selection-start-line="169" selection-start-column="51" selection-end-line="169" selection-end-column="51" />
           <folding>
             <element signature="e#10#11#0" expanded="true" />
             <element signature="e#31#32#0" expanded="true" />
