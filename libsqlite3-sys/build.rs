@@ -248,6 +248,7 @@ mod build {
         #[cfg_attr(rustfmt, rustfmt_skip)]
         static PREBUILT_BINDGEN_PATHS: &'static [&'static str] = &[
             "bindgen-bindings/bindgen_3.15.2.rs",
+            "bindgen-bindings/bundled_2.36.0.rs",
         ];
 
         pub fn write_to_out_dir(_header: HeaderLocation) {
