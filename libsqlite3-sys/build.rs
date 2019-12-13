@@ -144,13 +144,18 @@ mod build {
     }
 
     pub fn main() {
+        eprintln!("write_to_out_dir asdasd");
+
         let header = find_sqlite();
         bindings::write_to_out_dir(header);
-    }
+    }//3.15.2
 
     // Prints the necessary cargo link commands and returns the path to the header.
     fn find_sqlite() -> HeaderLocation {
         let link_lib = link_lib();
+
+        eprintln!("write_to_out_dir _LIB_DIR = {}", format!("{}_LIB_DIR", env_prefix()));
+
 
         println!("cargo:rerun-if-env-changed={}_INCLUDE_DIR", env_prefix());
         println!("cargo:rerun-if-env-changed={}_LIB_DIR", env_prefix());
@@ -159,6 +164,7 @@ mod build {
         }
         // Allow users to specify where to find SQLite.
         if let Ok(dir) = env::var(format!("{}_LIB_DIR", env_prefix())) {
+            eprintln!("the fn _LIB_DIR 1 ");
             println!("cargo:rustc-link-lib={}", link_lib);
             println!("cargo:rustc-link-search={}", dir);
             return HeaderLocation::FromEnvironment;
@@ -169,12 +175,18 @@ mod build {
         }
 
         // See if pkg-config can do everything for us.
+        eprintln!("find_sqlite link_lib = {}", link_lib);
         match pkg_config::Config::new().print_system_libs(false).probe(link_lib) {
             Ok(mut lib) => {
+                eprintln!("find_sqlite print_system_libs 1 ");
+
                 if let Some(mut header) = lib.include_paths.pop() {
+                    eprintln!("find_sqlite print_system_libs 2 ");
                     header.push("sqlite3.h");
                     HeaderLocation::FromPath(header.to_string_lossy().into())
                 } else {
+                    eprintln!("find_sqlite print_system_libs 3 ");
+
                     HeaderLocation::Wrapper
                 }
             }
@@ -184,6 +196,7 @@ mod build {
                 // output /usr/lib explicitly, but that can introduce other linking problems; see
                 // https://github.com/jgallagher/rusqlite/issues/207.
                 println!("cargo:rustc-link-lib={}", link_lib);
+                eprintln!("find_sqlite print_system_libs 4 ");
                 HeaderLocation::Wrapper
             }
         }
@@ -207,19 +220,22 @@ mod build {
     }
 
     fn env_prefix() -> &'static str {
-        if cfg!(feature = "sqlcipher") {
-            "SQLCIPHER"
-        } else {
-            "SQLITE3"
-        }
+//        if cfg!(feature = "sqlcipher") {
+//            "SQLCIPHER"
+//        } else {
+//            "SQLITE3"
+//        }
+
+        "WCBD"
     }
 
     fn link_lib() -> &'static str {
-        if cfg!(feature = "sqlcipher") {
-            "sqlcipher"
-        } else {
-            "sqlite3"
-        }
+        "wcbd"
+//        if cfg!(feature = "sqlcipher") {
+//            "sqlcipher"
+//        } else {
+//            "sqlite3"
+//        }
     }
 
     #[cfg(not(feature = "buildtime_bindgen"))]
@@ -231,22 +247,7 @@ mod build {
 
         #[cfg_attr(rustfmt, rustfmt_skip)]
         static PREBUILT_BINDGEN_PATHS: &'static [&'static str] = &[
-            "bindgen-bindings/bindgen_3.6.8.rs",
-
-            #[cfg(feature = "min_sqlite_version_3_6_11")]
-            "bindgen-bindings/bindgen_3.6.11.rs",
-
-            #[cfg(feature = "min_sqlite_version_3_6_23")]
-            "bindgen-bindings/bindgen_3.6.23.rs",
-
-            #[cfg(feature = "min_sqlite_version_3_7_3")]
-            "bindgen-bindings/bindgen_3.7.3.rs",
-
-            #[cfg(feature = "min_sqlite_version_3_7_4")]
-            "bindgen-bindings/bindgen_3.7.4.rs",
-
-            #[cfg(feature = "min_sqlite_version_3_7_16")]
-            "bindgen-bindings/bindgen_3.7.16.rs",
+            "bindgen-bindings/bindgen_3.15.2.rs",
         ];
 
         pub fn write_to_out_dir(_header: HeaderLocation) {
@@ -286,6 +287,9 @@ mod build {
             let header: String = header.into();
             let out_dir = env::var("OUT_DIR").unwrap();
             let mut output = Vec::new();
+
+            let header_syr :String = header.clone().into();
+            eprintln!("write_to_out_dir header = {}", header_syr);
             bindgen::builder()
                 .header(header.clone())
                 .parse_callbacks(Box::new(SqliteTypeChooser))
