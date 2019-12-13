@@ -251,9 +251,11 @@ mod build {
         ];
 
         pub fn write_to_out_dir(_header: HeaderLocation) {
+            eprintln!("find_sqlite write_to_out_dir ");
             let out_dir = env::var("OUT_DIR").unwrap();
             let out_path = Path::new(&out_dir).join("bindgen.rs");
             let in_path = PREBUILT_BINDGEN_PATHS[PREBUILT_BINDGEN_PATHS.len() - 1];
+            eprintln!("find_sqlite in_path = {} ", in_path);
             fs::copy(in_path, out_path).expect("Could not copy bindings to output directory");
         }
     }
