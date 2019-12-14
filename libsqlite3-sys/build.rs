@@ -12,7 +12,7 @@ mod build {
         let out_dir = env::var("OUT_DIR").unwrap();
         let out_path = Path::new(&out_dir).join("bindgen.rs");
 
-        println!("out_dir = {} out_path = {} ", out_dir, out_path);
+        println!("out_dir = {}   ", out_dir);
 
         let bundled_file = if cfg!(feature = "sqlcipher") {
             "sqlcipher/bundled_sqlcipher.rs"
