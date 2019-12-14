@@ -12,6 +12,8 @@ mod build {
         let out_dir = env::var("OUT_DIR").unwrap();
         let out_path = Path::new(&out_dir).join("bindgen.rs");
 
+        println!("out_dir = {} out_path = {} ", out_dir, out_path);
+
         let bundled_file = if cfg!(feature = "sqlcipher") {
             "sqlcipher/bundled_sqlcipher.rs"
         } else {
@@ -68,6 +70,8 @@ mod build {
 
             let target = env::var("TARGET").unwrap();
             let host = env::var("HOST").unwrap();
+            println!("target = {} host = {} out_dir = {} ", target, host);
+
             let mut openssl_dir_env_name = "OPENSSL_DIR";
             if target == host {
                 const HOST_OPENSSL_DIR: &'static str = "HOST_OPENSSL_DIR";
