@@ -70,7 +70,7 @@ mod build {
 
             let target = env::var("TARGET").unwrap();
             let host = env::var("HOST").unwrap();
-            println!("target = {} host = {} ", target, host);
+            println!("target = {} host = {:#?} ", target, host);
 
             let mut openssl_dir_env_name = "OPENSSL_DIR";
             if target == host {
